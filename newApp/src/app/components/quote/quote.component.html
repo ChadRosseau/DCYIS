@@ -1,0 +1,8 @@
+<div class="quoteWrapper">
+    <div class="form-group">
+        <input #t autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text"
+            value="{{ symbolValue }}">
+    </div>
+    <p>{{priceMsg}}</p>
+    <button class="btn btn-primary" type="submit" (click)="getQuote(t.value)">Quote</button>
+</div>

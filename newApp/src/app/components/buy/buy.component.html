@@ -1,0 +1,30 @@
+<div class="buyWrapper">
+    <div class="form-group">
+        <input #t autocomplete="off" autofocus id="symbolInput" class="form-control" name="symbol"
+            placeholder="Stock Symbol" type="text" value="{{ pageData['symbol'] }}" [hidden]="pageData.summary">
+        <input autocomplete="off" autofocus id="symbolInputDisabled" class="form-control" type="text"
+            value="{{ pageData['symbol'] }}" disabled [hidden]="!pageData.summary">
+    </div>
+    <div class="form-group">
+        <input #s class="form-control" id="quantityInput" name="shares" placeholder="Quantity of shares" type="number"
+            value="{{ pageData.shares }}" [hidden]="pageData.summary">
+        <input class="form-control" id="quantityInputDisabled" type="number" value="{{ pageData.shares }}" disabled
+            [hidden]="!pageData.summary">
+    </div>
+    <div id="pageData.summaryDiv" [hidden]="!pageData.summary">
+        <p><b>{{ pageData.receiptMessage }}</b></p>
+        <p style="color: red">Note: All transactions require a transaction fee of 1%</p>
+        <p>Stock price: {{ pageData.singlePrice }}</p>
+        <p style="color: crimson">Order price: {{ pageData.initialPrice }}</p>
+        <p style="color: crimson">Transaction fee: {{ pageData.transactionFee }}</p>
+        <p><b>Final price: {{ pageData.finalPrice }}</b></p>
+        <p>Current Account Balance: {{ pageData.currentBal }}</p>
+        <p><b>New Account Balance: {{ pageData.newBal }}</b></p>
+    </div>
+    <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary" (click)="resetValues()">Back</button>
+    <button class="btn btn-primary" type="submit" [hidden]="pageData.summary"
+        (click)="receipt(t.value, s.value)">Submit</button>
+    <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary" (click)="buy(t.value, s.value)">Complete
+        Purchase</button>
+    <h3 [hidden]="pageData.error == null">{{ pageData.error }}</h3>
+</div>
