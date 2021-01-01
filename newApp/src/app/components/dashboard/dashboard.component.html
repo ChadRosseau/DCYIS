@@ -1,1 +1,35 @@
-<p>Dashboard works!</p>
+<div class="dashboardContainer container-fluid">
+    <div class="row">
+        <nav class="dashboardSidebar col-md-2 d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="navItem nav-item" [routerLink]="['/dashboard/profile']"
+                        routerLinkActive="router-link-active">
+                        <a class="nav-link active">
+                            <i class="fas fa-user"></i><br>User Profile
+                        </a>
+                    </li>
+                    <li class="navItem nav-item" [routerLink]="['/dashboard/portfolios']"
+                        routerLinkActive="router-link-active">
+                        <a class="nav-link">
+                            <i class="fas fa-money-check"></i><br>Investment Portfolios
+                        </a>
+                    </li>
+                    <!-- Calling SignOut() Api from AuthService -->
+                    <li class="navItem nav-item">
+                        <a class="nav-link" (click)="auth.signOut()">
+                            <i class="fas fa-sign-out-alt"></i><br>Log out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content for profile-->
+        <app-user-info class="info" [hidden]="currentRoute != '/dashboard/profile'"></app-user-info>
+
+        <!-- Main content for portfolios -->
+        <app-portfolio-info class="info" [hidden]="currentRoute != '/dashboard/portfolios'"></app-portfolio-info>
+
+    </div>
+</div>

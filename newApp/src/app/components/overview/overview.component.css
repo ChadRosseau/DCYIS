@@ -1,4 +1,4 @@
-.historyWrapper {
+.overviewWrapper {
     margin: 50px auto;
     border-radius: 10px;
     border: 5px solid #3D7D8F;
@@ -21,9 +21,5 @@
 
 .summaryRow td {
     background: #FFF;
-    border: none;
-}
-
-.current {
-    border-left: 2px solid #3D7D8F!important;
+    border-top: 2px solid #3D7D8F;
 }

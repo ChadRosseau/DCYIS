@@ -1,0 +1,68 @@
+<div class="portfolioDisplayWrapper">
+    <div class="portfolioListWrapper">
+        <table class="table table-striped" style="width: 80%; margin: 0 auto">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Starting Balance</th>
+                    <th>Transaction Commission (%)</th>
+                    <!-- <th class="editButtonColumn"></th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let portfolio of portfolios$; let i = index" (click)="setPortfolio(portfolio.id)">
+                    <td>
+                        <p [hidden]="currentlyEditing == i">{{ portfolio.name }}</p>
+                        <!-- <input type="text" [ngModel]="pName + i" [hidden]="currentlyEditing != i" -->
+                        <!-- value="{{portfolio.name}}"> -->
+                    </td>
+                    <td>
+                        <p [hidden]="currentlyEditing == i">{{ portfolio.description }}</p>
+                        <!-- <input type="text" [ngModel]="pDescription + i" [hidden]="currentlyEditing != i" -->
+                        <!-- value="{{portfolio.description}}"> -->
+                    </td>
+                    <td>
+                        <p [hidden]="currentlyEditing == i">${{ portfolio.startingBal }}</p>
+                        <!-- <input type="text" [hidden]="currentlyEditing != i" value="${{ portfolio.startingBal }}" -->
+                        <!-- disabled> -->
+                    </td>
+                    <td>
+                        <p [hidden]="currentlyEditing == i">{{ portfolio.transactionCommission }}%</p>
+                        <!-- <input type="text" [hidden]="currentlyEditing != i" -->
+                        <!-- value="{{ portfolio.transactionCommission }}%" disabled> -->
+                    </td>
+                    <!-- <td class="editButtonColumn"> -->
+                    <!-- <button (click)="startEditing(i)" [hidden]="currentlyEditing != -1">Edit</button> -->
+                    <!-- <button (click)="submitEdits(portfolio.id, i)" [hidden]="currentlyEditing != i">Finish</button> -->
+                    <!-- </td> -->
+                </tr>
+                <tr [hidden]="newPortfolio.adding" class="adding addingPortfolioControls">
+                    <td colspan="4">
+                        <button class="addPortfolioButton" [hidden]="newPortfolio.adding"
+                            (click)="newPortfolio.adding = true">+</button>
+                    </td>
+                </tr>
+                <tr [hidden]="!newPortfolio.adding" class="addingPortfolioControls">
+                    <td><input #pName type="text" placeholder="Portfolio Name" value="{{newPortfolio.name}}" autofocus>
+                    </td>
+                    <td><input #pDescription type="text" placeholder="Portfolio Description"
+                            value="{{newPortfolio.description}}"></td>
+                    <td><input #startingBal type="number" placeholder="Starting Balance"
+                            value="{{newPortfolio.startingBal}}"></td>
+                    <td><input #transCost type="number" placeholder="Transaction Cost (%)"
+                            value="{{newPortfolio.transactionCommission}}"></td>
+                </tr>
+                <tr [hidden]="!newPortfolio.adding" class="createButtons">
+                    <td colspan="4">
+                        <button (click)="cancelAdd()" [hidden]="!newPortfolio.adding">CANCEL</button>
+                        <button
+                            (click)="addPortfolio(pName.value, pDescription.value, startingBal.value, transCost.value)"
+                            [hidden]="!newPortfolio.adding">CREATE</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p [hidden]="error == ''" style="color: red; font-weight: bold;">{{error}}</p>
+    </div>
+</div>

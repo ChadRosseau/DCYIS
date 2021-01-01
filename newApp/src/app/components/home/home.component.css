@@ -1,4 +1,4 @@
-.loginBackground {
+.homeBackground {
     background: url("../../../assets/home/wallpaper.jpg");
     background-position: center;
     background-size: cover;
@@ -10,22 +10,20 @@
     height: 80vh;
 }
 
-.loginWrapper {
-    max-width: 500px;
-    padding: 50px 20px;
+.homeWrapper {
+    width: 70%;
+    height: 90%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     border: 5px groove #FFF;
     border-radius: 20px;
-    color: #FFF;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.3);
+    padding-top: 1.5%;
 }
 
-.loginWrapper button {
-    background-color: rgba(0, 0, 0, 0);
-    border: 1px solid #FFF;
+.homeWrapper h1 {
+    font-size: 20em;
     color: #FFF;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin: 5px;
+    -webkit-text-fill-color: rgba(0, 0, 0, 0);
+    -webkit-text-stroke: 4px #FFF;
 }

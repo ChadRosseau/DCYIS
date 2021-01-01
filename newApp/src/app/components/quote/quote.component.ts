@@ -20,14 +20,13 @@ export class QuoteComponent implements OnInit {
     if (!symbol) {
       return this.priceMsg = "Must provide symbol";
     }
-    let data = await this.helper.lookup(symbol);
-    if (!data) {
-      return this.priceMsg = `${symbol} is not a valid stock symbol`;
-    }
-    this.priceMsg = `Current price of '${data['name']}' stock: ${this.helper.usd(data['price'])}`;
-    this.symbolValue = data['symbol'];
-    console.log(this.priceMsg);
-    console.log(this.symbolValue);
-    return false;
+    await this.helper.lookupPromise(symbol).then(data => {
+      if (!data) {
+        return this.priceMsg = `${symbol} is not a valid stock symbol`;
+      }
+      this.priceMsg = `Current price of '${data['name']}' stock: ${this.helper.usd(data['price'])}`;
+      this.symbolValue = data['symbol'];
+      return;
+    }).catch(error => console.log(error));
   }
 }

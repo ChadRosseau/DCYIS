@@ -1,0 +1,33 @@
+<div class="overviewWrapper">
+    <table class="table table-striped" style="width: 80%; margin: 0 auto">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let stock of stock$; let i = index">
+                <td>{{ stock.stockName }}</td>
+                <td>{{ stock.stockSymbol }}</td>
+                <td>{{ stock.quantity }}</td>
+                <td>{{ stock.unitPrice }}</td>
+                <td>{{ stock.totalValue }}</td>
+            </tr>
+            <tr>
+                <td colspan="5" [hidden]="!noStocks">Click <a href="/buy">"buy"</a> to get started</td>
+            </tr>
+            <tr class="summaryRow">
+                <td><b>Current Account Balance:</b></td>
+                <td colspan="4"><b>{{ helpers.usd(currentBal) }}</b></td>
+            </tr>
+            <tr class="summaryRow">
+                <td><b>Total Portfolio Value: </b></td>
+                <td colspan="4"><b>{{ helpers.usd(totalPortfolioValue) }}</b></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

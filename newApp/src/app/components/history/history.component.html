@@ -1,1 +1,54 @@
-<p>history works!</p>
+<div class="historyWrapper">
+    <table class="table table-striped" style="width: 80%; margin: 0 auto">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Quantity</th>
+                <th>Unit Price at Transaction</th>
+                <th>Current Unit Price</th>
+                <th>Value of Transaction at Transaction</th>
+                <th>Current Value of Transaction</th>
+                <th>% Change</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of history$; let i = index">
+                <td>{{ row.stockName }}</td>
+                <td>{{ row.stockSymbol }}</td>
+                <td>{{ row.quantity }}</td>
+                <td>{{ row.oldValue }}</td>
+                <td>{{ row.unitPrice }}</td>
+                <td>{{ row.oldTotalValue }}</td>
+                <td>{{ row.currentTotalValue }}</td>
+                <td [ngStyle]="{'color': helpers.getPercentColor(row.percentChange, row.quantity)}">
+                    {{ helpers.toPercent(row.percentChange) }}</td>
+                <td>{{ helpers.toTime(row.timestamp) }}</td>
+            </tr>
+            <tr>
+                <td colspan=" 9" [hidden]="!noStocks">Click <a href="/buy">"buy"</a> to get started</td>
+            </tr>
+            <tr class="summaryRow" style="border-top: 2px solid #3D7D8F">
+                <td colspan="4"></td>
+                <td colspan="2" class="current"><b>Current Account Balance:</b></td>
+                <td colspan="3"><b>{{ helpers.usd(currentBal) }}</b></td>
+            </tr>
+            <tr class="summaryRow">
+                <td colspan="2" rowspan="4"><b>Starting Account Balance:</b></td>
+                <td colspan="2" rowspan="4"><b>{{ helpers.usd(startingBal) }}</b></td>
+            </tr>
+            <tr class="summaryRow"
+                style="border: 2px solid #3D7D8F; border-right: none; border-left: 2px solid #3D7D8F">
+                <td colspan="2" class="current"><b>Total Portfolio Value: </b></td>
+                <td colspan="3"><b>{{ helpers.usd(totalPortfolioValue) }}</b></td>
+            </tr>
+            <tr class="summaryRow">
+                <td colspan="2" class="current"><b>Total Portfolio Change: </b></td>
+                <td colspan="3" [ngStyle]="{'color': helpers.getPercentColor(totalPortfolioChange, 1)}">
+                    <b>{{ helpers.toPercent(totalPortfolioChange) }}</b>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

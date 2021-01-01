@@ -1,0 +1,29 @@
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <div class="inner-adjust">
+
+        <div class="pt-3 pb-2 mb-3 border-bottom">
+            <h2>User Profile</h2>
+        </div>
+        <!-- Show user data when logged in -->
+        <div class="row" *ngIf="userObject as user">
+            <div class="col-md-12">
+                <div class="media">
+                    <img class="align-self-start mr-5 img-thumbnail rounded-circle"
+                        src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}" alt="{{user.displayName}}">
+                    <div class="media-body">
+                        <p class="dataTitle">Display Name:</p>
+                        <p>{{(user.displayName) ? user.displayName : 'User'}}</p>
+                        <p class="dataTitle">User ID:</p>
+                        <p>{{user.uid}}</p>
+                        <p class="dataTitle">Email:</p>
+                        <p>{{user.email}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="getStarted" *ngIf="userObject as user">
+            <h3><a [routerLink]="['/dashboard/portfolios']">Choose a portfolio</a> to get started</h3>
+        </div>
+
+    </div>
+</main>

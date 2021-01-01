@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
 
 // Environment
 import { environment } from '../environments/environment';
@@ -20,9 +22,13 @@ import { BuyComponent } from './components/buy/buy.component';
 import { SellComponent } from './components/sell/sell.component';
 import { HistoryComponent } from './components/history/history.component';
 import { LoginComponent } from './components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
+import { OverviewComponent } from './components/overview/overview.component';
 
 // Auth
 import { AuthService } from './services/auth.service';
+import { UserInfoComponent } from './components/dashboard/user-info/user-info.component';
+import { PortfolioInfoComponent } from './components/dashboard/portfolio-info/portfolio-info.component';
 
 @NgModule({
   declarations: [
@@ -33,13 +39,19 @@ import { AuthService } from './services/auth.service';
     BuyComponent,
     SellComponent,
     HistoryComponent,
-    LoginComponent
+    LoginComponent,
+    UserInfoComponent,
+    PortfolioInfoComponent,
+    HomeComponent,
+    OverviewComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     BrowserModule,
+    FormsModule,
+    RouterModule,
     AppRoutingModule
   ],
   providers: [AuthService],

@@ -6,3 +6,15 @@
 button {
     margin: 0 auto;
 }
+
+.msg {
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}

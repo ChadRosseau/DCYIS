@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { StylesCompileDependency } from '@angular/compiler';
-import { callbackify } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -94,7 +92,7 @@ export class HelpersService {
 
   // Format value as USD.
   usd(value) {
-    value = value.toFixed(2);
+    value = Number(value).toFixed(2);
     return `$${value}`;
   }
 
@@ -109,22 +107,46 @@ export class HelpersService {
 
   // Convert positive integer to negative
   toPercent(percentChange) {
-    percentChange = percentChange.toFixed(2);
-    if (percentChange > 0) {
-      return `+${percentChange}%`;
+    if (percentChange) {
+      percentChange = percentChange.toFixed(2);
+      if (percentChange > 0) {
+        return `+${percentChange}%`;
+      } else {
+        return `${percentChange}%`;
+      }
     } else {
-      return `${percentChange}%`;
+      return "";
     }
   }
 
   // Determine color for percent
   getPercentColor(percentChange, quantity) {
-    if ((percentChange > 0 && quantity > 0) || (percentChange < 0 && quantity < 0)) {
-      return "green"
-    } else if ((percentChange < 0 && quantity > 0) || (percentChange > 0 && quantity < 0)) {
-      return "red"
+    if (percentChange) {
+      if ((percentChange > 0 && quantity > 0) || (percentChange < 0 && quantity < 0)) {
+        return "green";
+      } else if ((percentChange < 0 && quantity > 0) || (percentChange > 0 && quantity < 0)) {
+        return "red";
+      } else {
+        return "black";
+      }
     } else {
-      return "black"
+      return "black";
     }
+  }
+
+  toTime(dateISO) {
+    const zDatetime = new Date(dateISO);
+    let date = this.datePad(zDatetime.getDate()),
+      month = this.datePad(zDatetime.getMonth()),
+      year = this.datePad(zDatetime.getFullYear()),
+      hour = this.datePad(zDatetime.getHours()),
+      minute = this.datePad(zDatetime.getMinutes()),
+      second = this.datePad(zDatetime.getSeconds());
+    let timestamp = `${date}/${month}/${year} - ${hour}:${minute}:${second}`;
+    return timestamp;
+  }
+
+  datePad(n) {
+    return n < 10 ? '0' + n : n;
   }
 }

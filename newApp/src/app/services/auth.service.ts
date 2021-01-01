@@ -23,11 +23,12 @@ import { User } from './user';
 export class AuthService {
   user$: Observable<User>;
   userKey: string;
+  currentPortfolioId: Observable<string>;
 
   constructor(
     private afAuth: AngularFireAuth,
     public db: AngularFireDatabase,
-    private router: Router
+    public router: Router
   ) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
@@ -39,6 +40,7 @@ export class AuthService {
         }
       })
     )
+    this.currentPortfolioId = null;
   }
 
   async googleSignIn() {
@@ -50,7 +52,8 @@ export class AuthService {
   async signOut() {
     await this.afAuth.signOut();
     this.user$ = null;
-    return this.router.navigate(['/']);
+    this.router.navigate(['/']);
+    return location.reload();
   }
 
   async updateUserData({ uid, email, displayName, photoURL }: User) {
@@ -64,24 +67,11 @@ export class AuthService {
     }
     dbUserRef.set(data);
     this.user$ = dbUserRef.valueChanges();
-
     this.userKey = uid;
 
-    this.setNewUserBalance(uid);
-
-    // location.reload();
+    return location.reload();
   }
-
   // Set tracking variables
-  setNewUserBalance(uid) {
-    const dbUserBalRef = this.db.database.ref(`portfolios/${uid}/balance`);
-    dbUserBalRef.once('value', (snapshot) => {
-      const data = snapshot.val();
-      if (data == null) {
-        dbUserBalRef.set(10000);
-      };
-    })
-  }
 
   async updateUserBalance(uid: string, balance: number) {
     const dbUserBalRef = await this.db.database.ref(`portfolios/${uid}/balance`);

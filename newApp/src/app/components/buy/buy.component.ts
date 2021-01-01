@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HelpersService } from '../../services/helpers.service';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-buy',
@@ -11,7 +12,7 @@ export class BuyComponent implements OnInit {
   userObject;
   pageData;
 
-  constructor(public auth: AuthService, public helper: HelpersService) {
+  constructor(public auth: AuthService, public helper: HelpersService, private router: Router) {
     this.auth.user$.subscribe(u => {
       this.userObject = u;
     })
@@ -20,10 +21,13 @@ export class BuyComponent implements OnInit {
   ngOnInit() {
     this.pageData = {
       error: null,
+      success: null,
+      completePurchaseDisabled: false,
       summary: false,
       symbol: "",
       shares: 0,
       receiptMessage: "",
+      disclaimerMessage: "",
       singlePrice: "",
       initialPrice: "",
       transactionFee: "",
@@ -36,9 +40,9 @@ export class BuyComponent implements OnInit {
   resetValues() {
 
     for (const [key, value] of Object.entries(this.pageData)) {
-      if (key == 'error') {
+      if (key == 'error' || key == 'success') {
         this.pageData[key] = null;
-      } else if (key == 'summary') {
+      } else if (key == 'summary' || key == 'completePurchaseDisabled') {
         this.pageData[key] = false;
       } else if (key == 'symbol' || key == 'shares') {
 
@@ -48,7 +52,7 @@ export class BuyComponent implements OnInit {
     }
   }
 
-  // Buy shares of stock
+  // Get receipt for purchase
   async receipt(symbol, shares) {
 
     let error = this.checkInputs(symbol, shares)
@@ -64,81 +68,156 @@ export class BuyComponent implements OnInit {
         return this.setError(`'${symbol}' is not a valid stock symbol`);
       }
 
-      console.log(data['price']);
-      let singlePrice = this.helper.round(data['price'], 2),
-        initialPrice = this.helper.round(singlePrice * shares, 2),
-        transactionFee = this.helper.round(initialPrice / 100, 2),
-        finalPrice = this.helper.round(initialPrice + transactionFee, 2);
-
       // Set message for receipt
-      // this.pageData.receiptMessage = `Receipt for ${shares} piece(s) of '${data['name']}' (${data['symbol']}) stock:`;
+      this.pageData.receiptMessage = `Receipt for ${shares} piece(s) of '${data['name']}' (${data['symbol']}) stock:`;
 
       if (this.pageData.summary == false) {
-        console.log(this.auth.userKey)
-        let userCash;
-        let newCash;
-        const dbUserBalRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/balance`);
-        dbUserBalRef.once('value', (snapshot) => {
-          userCash = snapshot.val();
+        let currentStock,
+          userCash,
+          newCash;
+        let singlePrice = this.helper.round(data['price'], 2),
+          initialPrice = this.helper.round(singlePrice * shares, 2),
+          transactionFee: number,
+          finalPrice: number;
+
+        const dbUserTransRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}/transactionCommission`);
+        dbUserTransRef.once('value', (snapshot) => {
+          let transactionPercent = snapshot.val();
+          if (transactionPercent != 0) {
+            transactionFee = this.helper.round(initialPrice / (100 / transactionPercent), 2)
+          } else {
+            transactionFee = 0;
+          }
+          this.pageData.disclaimerMessage = `Portfolio's set commission fee (% of transaction): ${transactionPercent}%`;
+          finalPrice = this.helper.round(initialPrice + transactionFee, 2);
           this.pageData.error = null;
         }).then(() => {
-          if (userCash < finalPrice) {
-            this.setError("Your portfolio balance cannot afford this purchase")
-          }
-          newCash = this.helper.round(userCash - finalPrice, 2);
-          // Update page data
-          this.pageData.symbol = data['symbol'];
-          this.pageData.shares = shares;
-          this.pageData.singlePrice = this.helper.usd(singlePrice);
-          this.pageData.initialPrice = this.helper.usd(initialPrice);
-          this.pageData.transactionFee = this.helper.usd(transactionFee);
-          this.pageData.finalPrice = this.helper.usd(finalPrice);
-          this.pageData.currentBal = this.helper.usd(userCash);
-          this.pageData.newBal = this.helper.usd(newCash);
-          return newCash;
-
-        }).then(() => {
-          // console.log(newCash);
-          // console.log(this.helper.usd(newCash));
-          // this.pageData.newBal = this.helper.usd(newCash);
-          this.pageData.summary = true;
+          const dbUserBalRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}/balance`);
+          dbUserBalRef.once('value', (snapshot) => {
+            userCash = snapshot.val();
+          }).then(() => {
+            const dbUserStocksRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}/stocks/${data['symbol']}`);
+            dbUserStocksRef.once('value', (snapshot) => {
+              if (snapshot.exists()) {
+                currentStock = snapshot.val();
+              } else {
+                currentStock = 0;
+              }
+            }).then(() => {
+              if (userCash < finalPrice) {
+                this.setError("Your portfolio balance cannot afford this purchase")
+              }
+              newCash = this.helper.round(userCash - finalPrice, 2);
+              // Update page data
+              this.pageData.symbol = data['symbol'];
+              this.pageData.shares = shares;
+              this.pageData.singlePrice = this.helper.usd(singlePrice);
+              this.pageData.initialPrice = this.helper.usd(initialPrice);
+              this.pageData.transactionFee = this.helper.usd(transactionFee);
+              this.pageData.finalPrice = this.helper.usd(finalPrice);
+              this.pageData.initialStock = currentStock;
+              this.pageData.finalStock = (currentStock + Number(shares));
+              this.pageData.currentBal = this.helper.usd(userCash);
+              this.pageData.newBal = this.helper.usd(newCash);
+            })
+          }).then(() => {
+            // console.log(newCash);
+            // console.log(this.helper.usd(newCash));
+            // this.pageData.newBal = this.helper.usd(newCash);
+            this.pageData.summary = true;
+          })
         })
       }
     }).catch(error => console.log(error));
 
-    // elif buySummary == True:
+  }
 
-    //       # Get user data from db
-    // userCash = db.execute("SELECT cash FROM users WHERE id=:userId", userId = session["user_id"])[0]['cash']
+  async completePurchase(symbol, shares) {
 
-    //       # Ensure user has enough cash for purchase
-    //       if userCash < finalPrice:
-    //       return console.log("Your account balance cannot afford this purchase.")
+    let error = this.checkInputs(symbol, shares)
 
-    //       # Set new user balance
-    //   newCash = round(userCash - finalPrice, 2)
-    //   db.execute("UPDATE users SET cash=:newCash WHERE id=:userId", newCash = newCash, userId = session["user_id"])
+    if (error != null) {
+      return this.setError(error);
+    };
 
-    //       # Record purchase in history db
-    //   db.execute("INSERT INTO purchaseHistory (userId, stockSymbol, quantity, price) VALUES (:userId, :symbol, :quantity, :price)", userId = session["user_id"], symbol = data['symbol'], quantity = shares, price = finalPrice)
+    // Get data on stock from IEX
+    let success = await this.helper.lookupPromise(symbol).then(data => {
 
-    //       # Check for instance of user and stock in userStocks db
-    //   checkExists = db.execute("SELECT EXISTS(SELECT * from userStocks WHERE userId=:userId AND stockSymbol=:symbol);", userId = session["user_id"], symbol = data['symbol'])
-    //   checkExists = checkExists[0]
-    //   checkExists = list(checkExists.values())
-    //   checkExists = checkExists[0]
-    //   if checkExists == 0:
-    //     db.execute("INSERT INTO userStocks (userId, stockSymbol, quantity) VALUES (:userId, :symbol, :quantity)", userId = session["user_id"], symbol = data['symbol'], quantity = shares)
-    //   else:
-    //   currentQuantity = db.execute("SELECT quantity FROM userStocks WHERE userId=:userId AND stockSymbol=:symbol", userId = session["user_id"], symbol = data['symbol'])
-    //   currentQuantity = currentQuantity[0]['quantity']
-    //   newQuantity = currentQuantity + shares
-    //   db.execute("UPDATE userStocks SET quantity=:newQuantity WHERE userId=:userId AND stockSymbol=:symbol", userId = session["user_id"], symbol = data['symbol'], newQuantity = newQuantity)
+      if (data == null) {
+        return this.setError(`'${symbol}' is not a valid stock symbol`);
+      }
 
-    //       # render_template("confirmation.html")
-    //   buySummary = False
-    //   return redirect("/")
+      console.log(data['price']);
 
+
+      if (this.pageData.summary == true) {
+
+        let userCash,
+          newCash;
+        let singlePrice = this.helper.round(data['price'], 2),
+          initialPrice = this.helper.round(singlePrice * shares, 2),
+          transactionFee: number,
+          finalPrice: number;
+
+        const dbUserTransRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}/transactionCommission`);
+        dbUserTransRef.once('value', (snapshot) => {
+          let transactionPercent = snapshot.val();
+          if (transactionPercent != 0) {
+            transactionFee = this.helper.round(initialPrice / (100 / transactionPercent), 2)
+          } else {
+            transactionFee = 0;
+          }
+          finalPrice = this.helper.round(initialPrice + transactionFee, 2);
+          this.pageData.error = null;
+        }).then(() => {
+          const dbUserBalRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}/balance`);
+          dbUserBalRef.once('value', (snapshot) => {
+            userCash = snapshot.val();
+          }).then(() => {
+            if (userCash < finalPrice) {
+              this.resetValues()
+              return this.setError("Your portfolio balance cannot afford this purchase")
+            }
+
+            // Set new user balance
+            newCash = this.helper.round(userCash - finalPrice, 2);
+            dbUserBalRef.set(newCash);
+
+            // Record purchase in history db
+            // db.execute("INSERT INTO purchaseHistory (userId, stockSymbol, quantity, price) VALUES (:userId, :symbol, :quantity, :price)", userId = session["user_id"], symbol = data['symbol'], quantity = shares, price = finalPrice)
+            const dbUserHistory = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}/history`)
+            const currentDate = new Date();
+            const timestamp = currentDate.toISOString();
+            dbUserHistory.push({
+              ownerUid: this.auth.userKey,
+              stockSymbol: data['symbol'],
+              quantity: Number(shares),
+              orderValue: initialPrice,
+              transactionFee: transactionFee,
+              transactionValue: finalPrice,
+              timestamp: timestamp
+            });
+
+            // Update portfolio stocks
+            let currentStock
+            const dbUserStockRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}/stocks/${data['symbol']}`)
+            dbUserStockRef.once('value', (snapshot) => {
+              currentStock = snapshot.val();
+            })
+              .then(() => {
+                dbUserStockRef.set(currentStock + Number(shares)).then(() => {
+                  this.pageData.success = "Success!";
+                  return this.router.navigate(['overview'])
+                });
+
+                //     # render_template("confirmation.html")
+                // buySummary = False
+                // return redirect("/")
+              })
+          })
+        })
+      }
+    }).catch(error => console.log(error))
   }
 
   checkInputs(symbol, shares) {
@@ -166,6 +245,7 @@ export class BuyComponent implements OnInit {
 
   setError(error) {
     this.pageData.error = error;
+    this.pageData.completePurchaseDisabled = true;
   }
 
 }

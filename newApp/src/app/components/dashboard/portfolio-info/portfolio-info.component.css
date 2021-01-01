@@ -1,0 +1,79 @@
+.portfolioListWrapper {
+    border: 5px solid #3D7D8F;
+    width: 90%;
+    border-radius: 10px;
+    margin: 50px auto;
+    padding-top: -2px;
+}
+
+a {
+    text-decoration: none;
+}
+
+table {
+    width: 100%!important;
+    table-layout: fixed;
+}
+
+thead {
+    background-color: #3D7D8F;
+}
+
+thead th {
+    background-color: #3D7D8F;
+    color: #FFF;
+    width: 25%;
+}
+
+thead th.editButtonColumn {
+    width: 12%;
+}
+
+tbody tr {
+    border-left: 1px solid #DEE2E6;
+    border-right: 1px solid #DEE2E6;
+}
+
+tbody tr td {
+    width: 22%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+tbody tr .editButtonColumn {
+    width: 12%;
+}
+
+td input {
+    width: 75%;
+}
+
+.adding td {
+    background: #3d7d8f79!important;
+}
+
+.createButtons td {
+    background: #FFF;
+}
+
+.createButtons td button {
+    background: #FFF;
+    border: 2.5px solid #3D7D8F;
+    color: #3D7D8F;
+    margin: 0 10px;
+}
+
+.addingPortfolioControls td {
+    cursor: default!important;
+    background: #3D7D8F;
+    border-top: 2px solid #FFF!important;
+}
+
+.addingPortfolioControls button {
+    margin: 0 10px;
+    border: 2.5px solid #FFF;
+    background: none;
+    color: #FFF;
+}

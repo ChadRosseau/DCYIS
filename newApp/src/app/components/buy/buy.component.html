@@ -13,18 +13,22 @@
     </div>
     <div id="pageData.summaryDiv" [hidden]="!pageData.summary">
         <p><b>{{ pageData.receiptMessage }}</b></p>
-        <p style="color: red">Note: All transactions require a transaction fee of 1%</p>
+        <p style="color: red">{{pageData.disclaimerMessage}}</p>
         <p>Stock price: {{ pageData.singlePrice }}</p>
         <p style="color: crimson">Order price: {{ pageData.initialPrice }}</p>
         <p style="color: crimson">Transaction fee: {{ pageData.transactionFee }}</p>
         <p><b>Final price: {{ pageData.finalPrice }}</b></p>
+        <p>Current no. of this stock: {{ pageData.initialStock }}</p>
+        <p><b>New no. of this stock: {{ pageData.finalStock }}</b></p>
         <p>Current Account Balance: {{ pageData.currentBal }}</p>
         <p><b>New Account Balance: {{ pageData.newBal }}</b></p>
     </div>
     <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary" (click)="resetValues()">Back</button>
     <button class="btn btn-primary" type="submit" [hidden]="pageData.summary"
         (click)="receipt(t.value, s.value)">Submit</button>
-    <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary" (click)="buy(t.value, s.value)">Complete
+    <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary"
+        (click)="completePurchase(t.value, s.value)" [disabled]="pageData.completePurchaseDisabled">Complete
         Purchase</button>
-    <h3 [hidden]="pageData.error == null">{{ pageData.error }}</h3>
+    <h3 [hidden]="pageData.error == null" class="errorMsg msg">{{ pageData.error }}</h3>
+    <h3 [hidden]="pageData.success == null" class="successMsg msg">{{ pageData.success }}</h3>
 </div>

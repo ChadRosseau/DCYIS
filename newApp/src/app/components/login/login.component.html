@@ -1,10 +1,16 @@
-<div *ngIf="auth.user$ | async as user; else login">
-    <pre>
-      {{ user | json }}
-    </pre>
-    <button class="button" (click)="auth.signOut()">Sign Out</button>
+<div class="loginBackground">
+    <div class="loginWrapper">
+        <div [hidden]="userObject != null">
+            <h2>Login/Signup</h2>
+            <p>Please sign in with your google account.</p>
+            <button (click)="auth.googleSignIn()">Sign in with Google</button>
+        </div>
+        <div [hidden]="userObject == null">
+            <h2>You are logged in!</h2>
+            <p>You are currently logged in as {{user.displayName}}</p>
+            <p>If this is not your account, please log out.</p>
+            <button (click)="auth.signOut()" routerLink="/">LOGOUT</button>
+            <button [routerLink]="['/dashboard/profile']">GET STARTED</button>
+        </div>
+    </div>
 </div>
-
-<ng-template #login>
-    <button class="button" (click)="auth.googleSignIn()">Login with Google</button>
-</ng-template>

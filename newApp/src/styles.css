@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url("../node_modules/@fortawesome/fontawesome-free/css/all.css");
 nav .navbar-brand {
     /* size for brand */
     font-size: xx-large;

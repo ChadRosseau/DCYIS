@@ -1,0 +1,42 @@
+.dashboardContainer {
+    min-height: 100vh;
+    margin-top: -76px;
+    padding-top: 76px;
+}
+
+.dashboardContainer .row {
+    height: 100%;
+}
+
+.dashboardSidebar {
+    height: 100%;
+    padding: 0;
+}
+
+.info {
+    width: 80%;
+}
+
+.navItem {
+    padding: 10px;
+    border-bottom: 1px solid #cfcfcf;
+    outline: none;
+}
+
+.nav-link {
+    font-weight: bold;
+}
+
+.nav-link i {
+    font-size: 2em;
+    margin-bottom: 5px;
+}
+
+.router-link-active {
+    background-color: #020C7E;
+    color: #FFF!important;
+}
+
+.router-link-active a {
+    color: #FFF!important;
+}

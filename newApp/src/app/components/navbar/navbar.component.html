@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light border">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" routerLink="/">
         <span style="color: blue">D</span>
         <span style="color: blue">C</span>
         <span style="color: green">Y</span>
@@ -12,17 +12,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto mt-2" [hidden]="userObject == null">
-            <li class="nav-item"><a class="nav-link" routerLink="/quote">Quote</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/dashboard/profile">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/quote" [hidden]="userObject != null">Quote</a></li>
+        </ul>
+        <ul class="navbar-nav mr-auto mt-2" [hidden]="userObject == null || auth.currentPortfolioId == null">
+            <li class="nav-item"><a class="nav-link" routerLink="/overview">Overview</a></li>
             <li class="nav-item"><a class="nav-link" routerLink="/buy">Buy</a></li>
             <li class="nav-item"><a class="nav-link" routerLink="/sell">Sell</a></li>
             <li class="nav-item"><a class="nav-link" routerLink="/history">History</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/quote">Quote</a></li>
+        </ul>
+        <ul class="navbar-nav mr-auto mt-2" [hidden]="userObject != null">
+            <li class="nav-item"><a class="nav-link" routerLink="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/quote">Quote</a></li>
         </ul>
         <ul class="navbar-nav ml-auto mt-2" [hidden]="userObject == null">
             <li class="nav-item" (click)="auth.signOut()"><a class="nav-link" routerLink="/">Log Out</a></li>
         </ul>
         <ul class="navbar-nav ml-auto mt-2" [hidden]="userObject != null">
-            <li class="nav-item"><a class="nav-link" routerLink="/register">Register</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="/login">Log In</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/login">Sign In</a></li>
         </ul>
     </div>
 </nav>
