@@ -1,11 +1,15 @@
+:host {
+    flex-grow: 1;
+    display: flex;
+}
+
 .dashboardContainer {
-    min-height: 100vh;
-    margin-top: -76px;
-    padding-top: 76px;
+    flex-grow: 1;
+    display: flex;
 }
 
 .dashboardContainer .row {
-    height: 100%;
+    flex-grow: 1;
 }
 
 .dashboardSidebar {
@@ -24,6 +28,7 @@
 }
 
 .nav-link {
+    color: #4c9eb4;
     font-weight: bold;
 }
 
@@ -33,8 +38,7 @@
 }
 
 .router-link-active {
-    background-color: #020C7E;
-    color: #FFF!important;
+    background-color: #3D7D8F;
 }
 
 .router-link-active a {

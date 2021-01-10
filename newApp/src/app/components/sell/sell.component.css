@@ -1,20 +1,133 @@
+:host {
+    flex-grow: 1;
+    display: flex;
+    z-index: 0;
+}
+
+.sellHero {
+    display: -webkit-flex;
+    display: flex;
+    flex-grow: 1;
+    background-image: url("https://wallpaperaccess.com/full/1393728.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.sellInfo {
+    background: rgba(0, 0, 0, 0.65);
+    width: 40%;
+    color: #FFF;
+    padding: 50px;
+    padding-top: 100px;
+}
+
+.sellInfo h2 {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.sellInfo p {
+    font-size: 1.3rem;
+    text-align: right;
+}
+
 .sellWrapper {
-    width: 100%;
-    padding: 100px;
+    width: 60%;
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
-button {
-    margin: 0 auto;
+.sellForm {
+    background: rgba(31, 65, 75, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    min-width: 40%;
+    position: relative;
 }
 
-.msg {
+.sellForm h3 {
+    color: #FFF;
+    font-weight: bold;
+    font-size: 3rem;
+    margin-bottom: 30px;
+}
+
+.sellForm button {
+    margin: 0 30px;
+    background: none;
+    border: 3px solid #FFF;
+}
+
+.summary {
+    color: #FFF;
+    min-width: 25%;
+    background: rgba(31, 65, 75, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    min-width: 40%;
+}
+
+.summary h4 {
+    font-size: 2em;
+    text-decoration: underline;
     font-weight: bold;
 }
 
-.error {
-    color: red;
+.summary p {
+    text-align: left;
+    position: relative;
 }
 
-.success {
-    color: green;
+.summary span.summaryData {
+    position: absolute;
+    right: 0;
+}
+
+.summary hr {
+    border-color: #FFF;
+}
+
+.summary button {
+    margin: 0 30px;
+    background: none;
+    border: 3px solid #FFF;
+}
+
+.errorMsg {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    position: absolute;
+    left: 50%;
+    top: 110%;
+    transform: translate(-50%, 0%);
+    color: #ec4662;
+    font-weight: bold;
+    border: 3px solid #ec4662;
+    border-radius: 10px;
+    width: 80%;
+}
+
+.errorMsg h5 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+input,
+input:disabled {
+    background: none;
+    border: 3px solid #FFF;
+    text-align: center;
+    color: #FFF;
+}
+
+input:focus,
+input:focus-within {
+    background: none;
+    border: 3px solid #ee9a46;
+    color: #FFF;
+    box-shadow: 0 0 0 0.2rem rgba(255, 123, 0, 0.25);
 }

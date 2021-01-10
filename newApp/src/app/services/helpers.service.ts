@@ -36,58 +36,125 @@ export class HelpersService {
     return this.router.navigate(['/error'])
   }
 
-  lookupPromise(symbol) {
-    let data = this.lookup(symbol)
+  async lookupPromise(symbolList) {
+    return await this.lookup(symbolList).then(data => {
+      return new Promise((resolve, reject) => {
+        if (!data) {
+          reject("No data")
+        }
+        let keysList = Object.keys(data);
+        for (let i = 0; i < keysList.length; i++) {
+          let currentKey = keysList[i];
+          if (data[currentKey] != undefined) {
+            this.updateStorage(data[currentKey]['symbol'], data[currentKey]);
+          } else {
+            console.log(`${data[currentKey]['symbol']} not a valid symbol, storage update failed.`)
+          }
+        }
+        resolve(data);
+      })
+    }).catch(error => console.log(error));
+  }
+
+  updateStorage(symbol, data) {
+    let storage = sessionStorage.getItem("stockData")
+    console.log(`Updated '${data["name"]}' information`);
+    if (storage != null) {
+      let json = JSON.parse(storage);
+      json[symbol] = data;
+      sessionStorage.setItem("stockData", JSON.stringify(json));
+    } else {
+      sessionStorage.setItem("stockData", JSON.stringify({ [symbol]: data }));
+    }
+  }
+
+  getAllStocks(symbol) {
+    let storage = sessionStorage.getItem("stockData")
     return new Promise((resolve, reject) => {
-      if (data != null) {
-        resolve(data)
+      if (storage != null) {
+        let json = JSON.parse(storage);
+        let keys = Object.keys(json);
+        if (keys.includes(symbol)) {
+          return resolve(json[symbol]);
+        } else {
+          return reject(keys);
+        }
       } else {
-        reject("Invalid symbol");
+        return reject(symbol);
       }
     })
   }
 
   // Look up quote for symbol.
-  lookup = async (symbol) => {
+  async lookup(symbolList) {
+    let symbols = "",
+      listLen = symbolList.length;
+    for (let i = 0; i < listLen; i++) {
+      if (i == listLen - 1) {
+        symbols = symbols.concat(symbolList[i]);
+      } else {
+        symbols = symbols.concat(symbolList[i] + ",");
+      }
+    }
+
     // Contact API
     let apiKey = environment.API_KEY,
       proxyUrl = 'https://salty-plains-62865.herokuapp.com/',
-      targetUrl = `https://cloud-sse.iexapis.com/stable/stock/${symbol}/quote?token=${apiKey}`;
+      targetUrl = `https://cloud-sse.iexapis.com/stable/stock/market/batch?types=quote&symbols=${symbols}&token=${apiKey}`;
     const data = await fetch(proxyUrl + targetUrl);
     try {
-      const json = await data.json(),
-        final = {
-          name: json["companyName"],
-          price: parseFloat(json["latestPrice"]),
-          symbol: json["symbol"]
+      const json = await data.json();
+      let finalData = {},
+        keys = Object.keys(json);
+      for (let i = 0; i < keys.length; i++) {
+        let key = keys[i],
+          data = json[key]['quote'],
+          final;
+        if (data == null) {
+          final = null;
+        } else {
+          final = {
+            "name": data["companyName"],
+            "price": parseFloat(data["latestPrice"]),
+            "symbol": data["symbol"]
+          }
         }
-      return final;
+        finalData = {
+          ...finalData,
+          [key]: final
+        }
+      }
+      return finalData;
     } catch (e) {
       console.log(e);
       return null;
     }
   }
 
+  // Check user inputs of buy/sell.
+  checkInputs(symbol, shares) {
+    // Ensure symbol was submitted
+    if (!symbol) {
+      return "Must provide a value for symbol";
+    }
 
-  // .then(d => d.json())
-  // .then(res => {
-  //   return res;
-  // }).catch(e => {
-  //   console.log(e);
-  //   return e;
-  // });
+    // Ensure shares was submitted
+    else if (!shares) {
+      return "Must provide a value for quantity.";
+    }
 
-  // // Parse response
-  // try {
-  //   let quote = data;
-  //   return {
-  //     "name": quote["companyName"],
-  //     "price": parseFloat(quote["latestPrice"]),
-  //     "symbol": quote["symbol"]
-  //   }
-  // } catch (e) {
-  //   if (e instanceof TypeError) { return null; }
-  // }
+    // Ensure shares is over 0
+    else if (shares <= 0) {
+      return "Quantity must be over 0.";
+    }
+
+    // Ensure shares is a integer.
+    try {
+      shares = parseInt(shares);
+    } catch (e) {
+      return "Quantity must be an integer.";
+    }
+  }
 
 
   // Format value as USD.
@@ -111,11 +178,13 @@ export class HelpersService {
       percentChange = percentChange.toFixed(2);
       if (percentChange > 0) {
         return `+${percentChange}%`;
-      } else {
+      } else if (percentChange < 0) {
         return `${percentChange}%`;
+      } else {
+        return `0.00%`;
       }
     } else {
-      return "";
+      return `0.00%`;
     }
   }
 

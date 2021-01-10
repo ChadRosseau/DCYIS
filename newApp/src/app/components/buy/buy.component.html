@@ -1,34 +1,106 @@
-<div class="buyWrapper">
-    <div class="form-group">
-        <input #t autocomplete="off" autofocus id="symbolInput" class="form-control" name="symbol"
-            placeholder="Stock Symbol" type="text" value="{{ pageData['symbol'] }}" [hidden]="pageData.summary">
-        <input autocomplete="off" autofocus id="symbolInputDisabled" class="form-control" type="text"
-            value="{{ pageData['symbol'] }}" disabled [hidden]="!pageData.summary">
+<div class="buyHero">
+    <div class="buyInfo">
+        <h2>Buy Stock</h2>
+        <p>
+            This website supports the trading of most stocks on the US stock market.
+        </p>
+        <br>
+        <p>
+            This page is where you are able to purchase stock for your portfolio. To do so, simply input the 'stock
+            symbol' of the desired stock, along with the desired quantity to buy.
+        </p>
+        <br>
+        <p>
+            Once you have submitted the transaction details, you will be shown a 'receipt' detailing the
+            trade you have requested. This receipt contains a multitude of information, designed to help you
+            determine whether to complete the transaction.
+        </p>
+        <br>
+        <p>
+            Naturally, you will be unable to purchase more stock than your current portfolio balance can afford. You are
+            also unable to purchase fractions of stock (e.g. '1.5'). All financial data is updated with a 15 minute
+            delay from the <a href="https://iexcloud.io">IEX Cloud</a> financial API.
+        </p>
     </div>
-    <div class="form-group">
-        <input #s class="form-control" id="quantityInput" name="shares" placeholder="Quantity of shares" type="number"
-            value="{{ pageData.shares }}" [hidden]="pageData.summary">
-        <input class="form-control" id="quantityInputDisabled" type="number" value="{{ pageData.shares }}" disabled
-            [hidden]="!pageData.summary">
+    <div class="buyWrapper">
+        <div class="buyForm">
+            <h3>Purchase</h3>
+            <div class="form-group">
+                <input #t autocomplete="off" autofocus id="symbolInput" class="form-control" name="symbol"
+                    placeholder="Stock Symbol" type="text" value="{{ pageData['symbol'] }}" [hidden]="pageData.summary">
+                <input autocomplete="off" autofocus id="symbolInputDisabled" class="form-control" type="text"
+                    value="{{ pageData['symbol'] }}" disabled [hidden]="!pageData.summary">
+            </div>
+            <div class="form-group">
+                <input #s class="form-control" id="quantityInput" name="shares" placeholder="Quantity of shares"
+                    type="number" value="{{ pageData.shares }}" [hidden]="pageData.summary">
+                <input class="form-control" id="quantityInputDisabled" type="number" value="{{ pageData.shares }}"
+                    disabled [hidden]="!pageData.summary">
+            </div>
+            <button class="btn btn-primary" type="submit" [hidden]="pageData.summary"
+                (click)="receipt(t.value, s.value)">Submit</button>
+            <div class="errorMsg" [hidden]="pageData.error == null">
+                <h5>{{ pageData.error }}</h5>
+            </div>
+        </div>
+        <div id="pageData.summaryDiv" class="summary" [hidden]="!pageData.summary">
+            <h4>Receipt</h4>
+            <p style="text-align: center">
+                <b>{{ pageData.receiptMessage }}</b>
+            </p>
+            <hr>
+            <p>
+                Stock price:
+                <span class="summaryData">{{ pageData.singlePrice }}</span>
+            </p>
+            <p>
+                Order price:
+                <span class="summaryData">{{ pageData.initialPrice }}</span>
+            </p>
+            <hr>
+            <p style="color: #ec4662">
+                Portfolio's set commission:
+                <span class="summaryData">{{pageData.commission}}</span>
+            </p>
+            <p style="color: #ec4662">
+                Commission fee:
+                <span class="summaryData">{{ pageData.transactionFee }}</span>
+            </p>
+            <hr>
+            <p style="color: #ECC3AC">
+                <b>
+                    Final price:
+                    <span class="summaryData">{{ pageData.finalPrice }}</span>
+                </b>
+            </p>
+            <hr>
+            <p>
+                Current stock owned:
+                <span class="summaryData">{{ pageData.initialStock }}</span>
+            </p>
+            <p style="color: aquamarine">
+                <b>
+                    New stock owned:
+                    <span class="summaryData">{{ pageData.finalStock }}</span>
+                </b>
+            </p>
+            <hr>
+            <p>
+                Current Account Balance:
+                <span class="summaryData">{{ pageData.currentBal }}</span>
+            </p>
+            <p style="color: #ECC3AC">
+                <b>
+                    New Account Balance:
+                    <span class="summaryData">{{ pageData.newBal }}</span>
+                </b>
+            </p>
+            <hr>
+            <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary"
+                (click)="resetValues()">Back</button>
+            <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary"
+                (click)="completePurchase(t.value, s.value)" [disabled]="pageData.completePurchaseDisabled">Complete
+                Purchase</button>
+        </div>
     </div>
-    <div id="pageData.summaryDiv" [hidden]="!pageData.summary">
-        <p><b>{{ pageData.receiptMessage }}</b></p>
-        <p style="color: red">{{pageData.disclaimerMessage}}</p>
-        <p>Stock price: {{ pageData.singlePrice }}</p>
-        <p style="color: crimson">Order price: {{ pageData.initialPrice }}</p>
-        <p style="color: crimson">Transaction fee: {{ pageData.transactionFee }}</p>
-        <p><b>Final price: {{ pageData.finalPrice }}</b></p>
-        <p>Current no. of this stock: {{ pageData.initialStock }}</p>
-        <p><b>New no. of this stock: {{ pageData.finalStock }}</b></p>
-        <p>Current Account Balance: {{ pageData.currentBal }}</p>
-        <p><b>New Account Balance: {{ pageData.newBal }}</b></p>
-    </div>
-    <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary" (click)="resetValues()">Back</button>
-    <button class="btn btn-primary" type="submit" [hidden]="pageData.summary"
-        (click)="receipt(t.value, s.value)">Submit</button>
-    <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary"
-        (click)="completePurchase(t.value, s.value)" [disabled]="pageData.completePurchaseDisabled">Complete
-        Purchase</button>
-    <h3 [hidden]="pageData.error == null" class="errorMsg msg">{{ pageData.error }}</h3>
-    <h3 [hidden]="pageData.success == null" class="successMsg msg">{{ pageData.success }}</h3>
 </div>

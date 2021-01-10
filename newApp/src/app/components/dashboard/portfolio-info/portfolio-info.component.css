@@ -23,6 +23,7 @@ thead th {
     background-color: #3D7D8F;
     color: #FFF;
     width: 25%;
+    border-top: none!important;
 }
 
 thead th.editButtonColumn {
@@ -50,25 +51,78 @@ td input {
     width: 75%;
 }
 
+td input::placeholder {
+    color: #FFF;
+    opacity: 0.8;
+}
+
+td input,
+td input:disabled {
+    background: none;
+    border: 3px solid #FFF;
+    text-align: center;
+    color: #FFF;
+}
+
+td input:focus,
+td input:focus-within {
+    background: none;
+    border: 3px solid #CADCE1;
+    color: #FFF;
+    box-shadow: none;
+    outline: none;
+}
+
+#transContainer input {
+    width: 20%!important;
+}
+
+#transContainer select {
+    background: none;
+    margin: 0 10px;
+    border: 3px solid #FFF;
+    padding: 2px;
+    color: #FFF;
+    outline: none;
+}
+
 .adding td {
-    background: #3d7d8f79!important;
+    background: #3d7d8f45!important;
+}
+
+.createButtons {
+    border: none!important;
 }
 
 .createButtons td {
-    background: #FFF;
+    border-top: none!important;
+    background: #3d7d8f45;
 }
 
 .createButtons td button {
-    background: #FFF;
     border: 2.5px solid #3D7D8F;
+    background: none;
     color: #3D7D8F;
     margin: 0 10px;
+    font-weight: bold;
+}
+
+.addingPortfolioControls {
+    border: none!important;
 }
 
 .addingPortfolioControls td {
     cursor: default!important;
     background: #3D7D8F;
     border-top: 2px solid #FFF!important;
+}
+
+#addPortfolioButton {
+    margin: 0 10px;
+    border: 2.5px solid #3D7D8F;
+    background: none;
+    color: #3D7D8F;
+    font-weight: bold;
 }
 
 .addingPortfolioControls button {

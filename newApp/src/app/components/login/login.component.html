@@ -7,7 +7,7 @@
         </div>
         <div [hidden]="userObject == null">
             <h2>You are logged in!</h2>
-            <p>You are currently logged in as {{user.displayName}}</p>
+            <p>You are currently logged in as {{userObject.displayName}}</p>
             <p>If this is not your account, please log out.</p>
             <button (click)="auth.signOut()" routerLink="/">LOGOUT</button>
             <button [routerLink]="['/dashboard/profile']">GET STARTED</button>

@@ -21,6 +21,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.auth.currentPortfolioId = null;
+    this.auth.currentPortfolioStonks = false;
+    sessionStorage.clear();
   }
 
 

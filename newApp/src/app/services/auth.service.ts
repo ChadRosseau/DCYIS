@@ -24,12 +24,15 @@ export class AuthService {
   user$: Observable<User>;
   userKey: string;
   currentPortfolioId: Observable<string>;
+  currentPortfolioStonks: boolean;
+  currentStocks = {};
 
   constructor(
     private afAuth: AngularFireAuth,
     public db: AngularFireDatabase,
     public router: Router
   ) {
+    sessionStorage.clear();
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
@@ -41,6 +44,7 @@ export class AuthService {
       })
     )
     this.currentPortfolioId = null;
+    this.currentPortfolioStonks = false;
   }
 
   async googleSignIn() {

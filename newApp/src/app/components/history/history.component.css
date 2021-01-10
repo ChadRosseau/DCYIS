@@ -1,3 +1,12 @@
+.historyHero {
+    width: 100%;
+    min-height: 92vh;
+    padding: 50px 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 .historyWrapper {
     margin: 50px auto;
     border-radius: 10px;
@@ -7,6 +16,7 @@
 
 .table {
     width: 100%!important;
+    background: rgba(255, 255, 255, 0.8)!important;
 }
 
 .table thead th {

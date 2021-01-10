@@ -6,12 +6,13 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Starting Balance</th>
-                    <th>Transaction Commission (%)</th>
+                    <th>Transaction Commission</th>
                     <!-- <th class="editButtonColumn"></th> -->
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let portfolio of portfolios$; let i = index" (click)="setPortfolio(portfolio.id)">
+                <tr *ngFor="let portfolio of portfolios$; let i = index"
+                    (click)="setPortfolio(portfolio.id, portfolio.stonks)">
                     <td>
                         <p [hidden]="currentlyEditing == i">{{ portfolio.name }}</p>
                         <!-- <input type="text" [ngModel]="pName + i" [hidden]="currentlyEditing != i" -->
@@ -28,7 +29,9 @@
                         <!-- disabled> -->
                     </td>
                     <td>
-                        <p [hidden]="currentlyEditing == i">{{ portfolio.transactionCommission }}%</p>
+                        <p [hidden]="currentlyEditing == i">
+                            {{ portfolio.commissionType == "percentage" ? portfolio.transactionCommission + "%" : helper.usd(portfolio.transactionCommission) }}
+                        </p>
                         <!-- <input type="text" [hidden]="currentlyEditing != i" -->
                         <!-- value="{{ portfolio.transactionCommission }}%" disabled> -->
                     </td>
@@ -39,30 +42,35 @@
                 </tr>
                 <tr [hidden]="newPortfolio.adding" class="adding addingPortfolioControls">
                     <td colspan="4">
-                        <button class="addPortfolioButton" [hidden]="newPortfolio.adding"
+                        <button id="addPortfolioButton" [hidden]="newPortfolio.adding"
                             (click)="newPortfolio.adding = true">+</button>
                     </td>
                 </tr>
                 <tr [hidden]="!newPortfolio.adding" class="addingPortfolioControls">
-                    <td><input #pName type="text" placeholder="Portfolio Name" value="{{newPortfolio.name}}" autofocus>
+                    <td><input name="pName" type="text" placeholder="Portfolio Name" [(ngModel)]="newPortfolio.name"
+                            autofocus>
                     </td>
-                    <td><input #pDescription type="text" placeholder="Portfolio Description"
-                            value="{{newPortfolio.description}}"></td>
-                    <td><input #startingBal type="number" placeholder="Starting Balance"
-                            value="{{newPortfolio.startingBal}}"></td>
-                    <td><input #transCost type="number" placeholder="Transaction Cost (%)"
-                            value="{{newPortfolio.transactionCommission}}"></td>
+                    <td><input name="pDescription" type="text" placeholder="Portfolio Description"
+                            [(ngModel)]="newPortfolio.description"></td>
+                    <td><input name="startingBal" type="number" placeholder="Starting Balance"
+                            [(ngModel)]="newPortfolio.startingBal" style="width: 40%"></td>
+                    <td id="transContainer">
+                        <input name="transCost" type="number" placeholder="Commission Cost"
+                            [(ngModel)]="newPortfolio.transactionCommission">
+                        <select #transType>
+                            <option value="percentage" selected="selected">(%)</option>
+                            <option value="constant">($)</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr [hidden]="!newPortfolio.adding" class="createButtons">
                     <td colspan="4">
                         <button (click)="cancelAdd()" [hidden]="!newPortfolio.adding">CANCEL</button>
-                        <button
-                            (click)="addPortfolio(pName.value, pDescription.value, startingBal.value, transCost.value)"
-                            [hidden]="!newPortfolio.adding">CREATE</button>
+                        <button (click)="addPortfolio(transType.value)" [hidden]="!newPortfolio.adding">CREATE</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <p [hidden]="error == ''" style="color: red; font-weight: bold;">{{error}}</p>
     </div>
+    <p [hidden]="error == ''" style="color: red; font-weight: bold;">{{error}}</p>
 </div>

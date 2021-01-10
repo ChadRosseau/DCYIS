@@ -1,20 +1,133 @@
+:host {
+    flex-grow: 1;
+    display: flex;
+    z-index: 0;
+}
+
+.buyHero {
+    display: -webkit-flex;
+    display: flex;
+    flex-grow: 1;
+    background-image: url("https://images.squarespace-cdn.com/content/v1/5af01293697a98afe3594f36/1526276982809-DK1PWUOUQB9O48T1VBRE/ke17ZwdGBToddI8pDm48kFUXhVpDNJypizh6DflS9gcUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2dtiy9zaKxRkF1_T_ccQc48XJqMeC1FkTGFiQ8sR-FhpcG6v6ULRah83RgHXAWD5lbQ/finance+background.jpg?format=2500w");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.buyInfo {
+    background: rgba(0, 0, 0, 0.65);
+    width: 40%;
+    color: #FFF;
+    padding: 50px;
+    padding-top: 100px;
+}
+
+.buyInfo h2 {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.buyInfo p {
+    font-size: 1.3rem;
+    text-align: left;
+}
+
 .buyWrapper {
-    width: 100%;
-    padding: 100px;
+    width: 60%;
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
-button {
-    margin: 0 auto;
+.buyForm {
+    background: rgba(31, 65, 75, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    min-width: 40%;
+    position: relative;
 }
 
-.msg {
+.buyForm h3 {
+    color: #FFF;
+    font-weight: bold;
+    font-size: 3rem;
+    margin-bottom: 30px;
+}
+
+.buyForm button {
+    margin: 0 30px;
+    background: none;
+    border: 3px solid #FFF;
+}
+
+.summary {
+    color: #FFF;
+    min-width: 25%;
+    background: rgba(31, 65, 75, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    min-width: 40%;
+}
+
+.summary h4 {
+    font-size: 2em;
+    text-decoration: underline;
     font-weight: bold;
 }
 
-.error {
-    color: red;
+.summary p {
+    text-align: left;
+    position: relative;
 }
 
-.success {
-    color: green;
+.summary span.summaryData {
+    position: absolute;
+    right: 0;
+}
+
+.summary hr {
+    border-color: #FFF;
+}
+
+.summary button {
+    margin: 0 30px;
+    background: none;
+    border: 3px solid #FFF;
+}
+
+.errorMsg {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    position: absolute;
+    left: 50%;
+    top: 110%;
+    transform: translate(-50%, 0%);
+    color: #ec4662;
+    font-weight: bold;
+    border: 3px solid #ec4662;
+    border-radius: 10px;
+    width: 80%;
+}
+
+.errorMsg h5 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+input,
+input:disabled {
+    background: none;
+    border: 3px solid #FFF;
+    text-align: center;
+    color: #FFF;
+}
+
+input:focus,
+input:focus-within {
+    background: none;
+    border: 3px solid aquamarine;
+    color: #FFF;
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 255, 0.25);
 }

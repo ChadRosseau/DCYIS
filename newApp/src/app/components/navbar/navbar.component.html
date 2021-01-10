@@ -1,10 +1,8 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light border">
+<nav class="topNav navbar navbar-expand-md navbar-dark bg-dark border">
     <a class="navbar-brand" routerLink="/">
-        <span style="color: blue">D</span>
-        <span style="color: blue">C</span>
-        <span style="color: green">Y</span>
-        <span style="color: green">I</span>
-        <span style="color: #DAA520">$</span>
+        <span style="color: aqua">DC</span>
+        <span style="color: lime">YI</span>
+        <span style="color: gold">$</span>
         <span style="color: red">Finance</span></a>
     <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
         data-target="#navbar" data-toggle="collapse" type="button">
@@ -14,14 +12,19 @@
         <ul class="navbar-nav mr-auto mt-2" [hidden]="userObject == null">
             <li class="nav-item"><a class="nav-link" routerLink="/">Home</a></li>
             <li class="nav-item"><a class="nav-link" routerLink="/dashboard/profile">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="/quote" [hidden]="userObject != null">Quote</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/quote">Quote</a></li>
         </ul>
         <ul class="navbar-nav mr-auto mt-2" [hidden]="userObject == null || auth.currentPortfolioId == null">
-            <li class="nav-item"><a class="nav-link" routerLink="/overview">Overview</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="/buy">Buy</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="/sell">Sell</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="/history">History</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="/quote">Quote</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/overview"
+                    routerLinkActive="nav-router-link-active">Overview</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/buy" routerLinkActive="nav-router-link-active">Buy</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" routerLink="/sell"
+                    routerLinkActive="nav-router-link-active">Sell</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/history"
+                    routerLinkActive="nav-router-link-active">History</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/quote"
+                    routerLinkActive="nav-router-link-active">Quote</a></li>
         </ul>
         <ul class="navbar-nav mr-auto mt-2" [hidden]="userObject != null">
             <li class="nav-item"><a class="nav-link" routerLink="/">Home</a></li>
@@ -35,3 +38,5 @@
         </ul>
     </div>
 </nav>
+
+<div class="navBackground" [hidden]="!offset"></div>

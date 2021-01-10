@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { HelpersService } from 'src/app/services/helpers.service';
 
 @Component({
   selector: 'app-portfolio-info',
@@ -8,13 +9,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./portfolio-info.component.css']
 })
 export class PortfolioInfoComponent implements OnInit {
-  newPortfolio;
+  newPortfolio = {
+    adding: false,
+    name: "",
+    description: "",
+    startingBal: 10000,
+    transactionCommission: 1
+  };
   userObject;
   error: string;
   portfolios$;
   currentlyEditing;
 
-  constructor(public auth: AuthService, private router: Router) {
+  constructor(public auth: AuthService, private router: Router, private helper: HelpersService) {
     if (auth.user$) {
       this.auth.user$.subscribe(u => {
         this.userObject = u;
@@ -43,9 +50,14 @@ export class PortfolioInfoComponent implements OnInit {
     this.currentlyEditing = -1;
   }
 
-  async addPortfolio(name, description, startingBalance, transactionCommission) {
+  addPortfolio(commissionType) {
 
     this.setError('');
+
+    let name = this.newPortfolio.name,
+      description = this.newPortfolio.description,
+      startingBalance = this.newPortfolio.startingBal,
+      transactionCommission = this.newPortfolio.transactionCommission;
 
     if (!name) {
       return this.setError("New portfolio must have name");
@@ -56,15 +68,13 @@ export class PortfolioInfoComponent implements OnInit {
     } else {
     }
 
-    this.newPortfolio.adding = false;
-
-    if (!transactionCommission) {
+    if (!transactionCommission || transactionCommission < 0) {
       transactionCommission = 0;
     }
 
-    const dbUserPortfoliosRef = await this.auth.db.database.ref(`portfolios/${this.userObject.uid}`);
+    const dbUserPortfoliosRef = this.auth.db.database.ref(`portfolios/${this.userObject.uid}`);
     let newPush = dbUserPortfoliosRef.push()
-    let pushId = (await newPush).key;
+    let pushId = newPush.key;
     newPush.set({
       id: pushId,
       ownerUid: this.userObject.uid,
@@ -73,29 +83,29 @@ export class PortfolioInfoComponent implements OnInit {
       startingBal: Number(startingBalance),
       balance: Number(startingBalance),
       transactionCommission: Number(transactionCommission),
+      commissionType: commissionType,
       stocks: [],
-      history: []
+      history: [],
+      stonks: false
     });
+
+    this.cancelAdd();
   }
 
   cancelAdd() {
-    this.newPortfolio.adding = false;
-    this.newPortfolio.name = '';
-    this.newPortfolio.description = '';
-    this.newPortfolio.startingBal = 10000;
-    this.newPortfolio.transactionCommission = 1;
+    this.newPortfolio = {
+      adding: false,
+      name: "",
+      description: "",
+      startingBal: 10000,
+      transactionCommission: 1
+    };
+    console.log("cancelled");
   }
 
-  errorDuringAdd(name, description, startingBalance, transactionCommission) {
-    this.newPortfolio.adding = true;
-    this.newPortfolio.name = name;
-    this.newPortfolio.description = description;
-    this.newPortfolio.startingBal = startingBalance;
-    this.newPortfolio.transactionCommission = transactionCommission;
-  }
-
-  setPortfolio(pId) {
+  setPortfolio(pId, stonks) {
     this.auth.currentPortfolioId = pId;
+    this.auth.currentPortfolioStonks = stonks;
     console.log(pId);
     return this.router.navigate(['overview'])
   }
