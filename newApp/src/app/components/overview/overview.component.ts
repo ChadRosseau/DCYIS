@@ -14,6 +14,7 @@ export class OverviewComponent implements OnInit {
   noStocks;
   totalPortfolioValue;
   currentBal;
+  currentPortfolioName;
 
   constructor(public auth: AuthService, public helpers: HelpersService, private router: Router) {
     if (auth.user$) {
@@ -26,14 +27,17 @@ export class OverviewComponent implements OnInit {
                 let portfolio = snapshot.val();
                 this.currentBal = portfolio['balance'];
                 this.totalPortfolioValue = portfolio['balance'];
+                this.currentPortfolioName = portfolio['name'];
               })
               return this.noStocks = true;
             } else {
               // Get current portfolio balance and assign to tracking variable.
-              const dbUserBalRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}/balance`);
+              const dbUserBalRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}`);
               dbUserBalRef.once('value', snapshot => {
-                this.currentBal = snapshot.val();
+                let portfolio = snapshot.val();
+                this.currentBal = portfolio['balance'];
                 this.totalPortfolioValue = this.currentBal;
+                this.currentPortfolioName = portfolio['name'];
               })
                 .then(() => {
 

@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
 
     router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
       this.currentRoute = event.url;
-      if (this.currentRoute == '/' || this.currentRoute == '/buy' || this.currentRoute == '/sell') {
+      if (this.currentRoute == '/' || this.currentRoute == '/buy' || this.currentRoute == '/sell' || this.currentRoute == '/overview' || this.currentRoute == '/history' || this.currentRoute == '/quote') {
         this.offset = false;
       } else {
         this.offset = true;

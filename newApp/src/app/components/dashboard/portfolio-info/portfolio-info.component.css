@@ -24,6 +24,7 @@ thead th {
     color: #FFF;
     width: 25%;
     border-top: none!important;
+    vertical-align: middle;
 }
 
 thead th.editButtonColumn {
@@ -43,6 +44,10 @@ tbody tr td {
     cursor: pointer;
 }
 
+tbody tr td p {
+    font-size: 0.8em;
+}
+
 tbody tr .editButtonColumn {
     width: 12%;
 }
@@ -54,6 +59,7 @@ td input {
 td input::placeholder {
     color: #FFF;
     opacity: 0.8;
+    font-size: 0.8em;
 }
 
 td input,

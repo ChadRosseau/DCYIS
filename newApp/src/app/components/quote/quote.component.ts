@@ -8,6 +8,7 @@ import { HelpersService } from '../../services/helpers.service';
 })
 export class QuoteComponent implements OnInit {
   priceMsg: String;
+  stockPrice;
   symbolValue: String;
 
   constructor(public helper: HelpersService) { }
@@ -29,7 +30,8 @@ export class QuoteComponent implements OnInit {
       let validSymbol = Object.keys(fetchedData)[0],
         data = fetchedData[validSymbol];
 
-      this.priceMsg = `Current price of '${data['name']}' stock: ${this.helper.usd(data['price'])}`;
+      this.priceMsg = `Current price of '${data['name']}' stock:`;
+      this.stockPrice = this.helper.usd(data['price']);
       this.symbolValue = data['symbol'];
       return;
     }).catch(error => console.log(error));

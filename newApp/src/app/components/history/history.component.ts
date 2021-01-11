@@ -17,6 +17,7 @@ export class HistoryComponent implements OnInit {
   totalPortfolioChange;
   currentBal;
   startingBal;
+  currentPortfolioName;
   showTable;
   allStockKeys;
   image;
@@ -42,14 +43,18 @@ export class HistoryComponent implements OnInit {
                 this.currentBal = portfolio['balance'];
                 this.totalPortfolioValue = portfolio['balance'];
                 this.startingBal = portfolio['startingBal'];
+                this.currentPortfolioName = portfolio['name'];
               });
               this.noStocks = true;
               return this.showTable = true;
             } else {
               // Get current portfolio balance and assign to tracking variable.
-              const dbUserBalRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}/balance`);
+              const dbUserBalRef = this.auth.db.database.ref(`portfolios/${this.auth.userKey}/${this.auth.currentPortfolioId}`);
               dbUserBalRef.once('value', snapshot => {
-                this.currentBal = snapshot.val()
+                let portfolio = snapshot.val();
+                this.currentBal = portfolio['balance'];
+                this.startingBal = portfolio['startingBal'];
+                this.currentPortfolioName = portfolio['name'];
                 this.totalPortfolioValue = this.currentBal;
               }).then(() => {
                 // Loop through all stocks in portfolio, adding to array for html and recording value.
@@ -81,23 +86,14 @@ export class HistoryComponent implements OnInit {
                 dbStartBalRef.once('value', snapshot => {
                   this.startingBal = snapshot.val();
                   this.showTable = true;
-                  this.totalPortfolioChange = ((this.totalPortfolioValue / this.startingBal) - 1);
+                  this.totalPortfolioChange = (((this.totalPortfolioValue / this.startingBal) - 1)) * 100;
+                  this.setBackground();
                 })
               })
             }
           })
         }
       }, error => { console.log(error); });
-    }
-  }
-
-  ngDoCheck() {
-    if (this.totalPortfolioValue !== this.oldPortfolioValue) {
-      this.oldPortfolioValue = this.totalPortfolioValue;
-      if (this.totalPortfolioValue != null && this.startingBal != null) {
-        this.totalPortfolioChange = (((this.totalPortfolioValue / this.startingBal) - 1)) * 100;
-        this.setBackground();
-      }
     }
   }
 
@@ -110,6 +106,8 @@ export class HistoryComponent implements OnInit {
       } else {
         this.image = "https://i.imgur.com/HlMGmgm.jpg";
       }
+    } else {
+      this.image = "https://c4.wallpaperflare.com/wallpaper/294/320/850/skyline-hong-kong-nightscape-cityscape-wallpaper-preview.jpg";
     }
   }
 

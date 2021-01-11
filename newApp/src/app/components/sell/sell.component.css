@@ -20,16 +20,17 @@
     color: #FFF;
     padding: 50px;
     padding-top: 100px;
+    padding-bottom: 30px;
 }
 
 .sellInfo h2 {
-    font-size: 5rem;
+    font-size: 3rem;
     margin-bottom: 20px;
     text-align: right;
 }
 
 .sellInfo p {
-    font-size: 1.3rem;
+    font-size: 1rem;
     text-align: right;
 }
 
@@ -66,9 +67,10 @@
     color: #FFF;
     min-width: 25%;
     background: rgba(31, 65, 75, 0.8);
-    padding: 30px;
+    padding: 10px 30px;
     border-radius: 10px;
-    min-width: 40%;
+    min-width: 50%;
+    margin-top: 37px;
 }
 
 .summary h4 {
@@ -80,6 +82,7 @@
 .summary p {
     text-align: left;
     position: relative;
+    font-size: 0.8em;
 }
 
 .summary span.summaryData {
@@ -94,7 +97,8 @@
 .summary button {
     margin: 0 30px;
     background: none;
-    border: 3px solid #FFF;
+    border: 2px solid #FFF;
+    font-size: 0.8em;
 }
 
 .errorMsg {

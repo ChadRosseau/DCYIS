@@ -17,8 +17,13 @@
     padding: 0;
 }
 
+.dashboardSidebar .sidebar-sticky {
+    width: 20vw;
+    cursor: pointer;
+}
+
 .info {
-    width: 80%;
+    width: 70%;
 }
 
 .navItem {

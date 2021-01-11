@@ -1,8 +1,64 @@
-.quoteWrapper {
-    width: 100%;
-    padding: 100px;
+:host {
+    flex-grow: 1;
+    display: flex;
+    z-index: 0;
 }
 
+.quoteHero {
+    background-image: url("https://www.tripsavvy.com/thmb/AyY2aaVvbWTTLMId873jWHaP9l0=/2106x1424/filters:fill(auto,1)/GettyImages-586892388-5c7b646fc9e77c0001d19d3b.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    flex-grow: 1;
+    padding-top: 40vh;
+    padding-bottom: 50px;
+}
+
+.quoteWrapper {
+    margin: 0 auto;
+    color: #FFF;
+    width: 20%;
+    padding: 20px 10px;
+    background: rgba(31, 65, 75, 0.8);
+    border-radius: 10px;
+}
+
+.quoteWrapper h3,
+input,
 button {
     margin: 0 auto;
+}
+
+.quoteWrapper h3 {
+    color: #FFF;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+input,
+input:disabled {
+    background: none;
+    border: 3px solid #FFF;
+    text-align: center;
+    color: #FFF;
+}
+
+input:focus,
+input:focus-within {
+    background: none;
+    border: 3px solid #E29490;
+    color: #FFF;
+    box-shadow: 0 0 0 0.2rem RGBA(226, 148, 144, 0.40);
+}
+
+button,
+button:hover,
+button:active,
+button:focus {
+    background: none;
+    border: 2px solid #FFF;
+    font-size: 0.8em;
+    color: #FFF;
 }

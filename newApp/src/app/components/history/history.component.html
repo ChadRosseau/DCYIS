@@ -1,4 +1,5 @@
 <div class="historyHero" [ngStyle]="{'background-image': 'url('+image+')'}">
+    <h2 [hidden]="!showTable">{{currentPortfolioName}} - History</h2>
     <div class="historyWrapper" [hidden]="!showTable">
         <table class="table table-striped" style="width: 80%; margin: 0 auto">
             <thead>

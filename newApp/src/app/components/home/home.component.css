@@ -7,12 +7,11 @@
     align-items: center;
     justify-content: center;
     padding: 100px 0;
-    height: 80vh;
+    height: 90vh;
 }
 
 .homeWrapper {
     width: 70%;
-    height: 90%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     border: 5px groove #FFF;
@@ -22,7 +21,7 @@
 }
 
 .homeWrapper h1 {
-    font-size: 20em;
+    font-size: 14em;
     color: #FFF;
     -webkit-text-fill-color: rgba(0, 0, 0, 0);
     -webkit-text-stroke: 4px #FFF;
