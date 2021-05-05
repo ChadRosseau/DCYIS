@@ -100,7 +100,7 @@ export class HelpersService {
     // Contact API
     let apiKey = environment.API_KEY,
       proxyUrl = 'https://salty-plains-62865.herokuapp.com/',
-      targetUrl = `https://cloud-sse.iexapis.com/stable/stock/market/batch?types=quote&symbols=${symbols}&token=${apiKey}`;
+      targetUrl = `https://cloud.iexapis.com/stable/stock/market/batch?types=quote&symbols=${symbols}&token=${apiKey}`;
     const data = await fetch(proxyUrl + targetUrl);
     try {
       const json = await data.json();
