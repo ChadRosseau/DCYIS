@@ -9,6 +9,7 @@
     top: 0;
     width: 100%;
     background: rgba(43, 89, 102, 0.8)!important;
+    box-shadow: -1px 3px 5px #000;
     color: #FFF!important;
 }
 

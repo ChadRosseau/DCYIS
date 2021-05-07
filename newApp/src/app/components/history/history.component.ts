@@ -29,6 +29,7 @@ export class HistoryComponent implements OnInit {
   ngOnInit() {
     this.noStocks = false;
     this.showTable = false;
+    this.image = "../../../assets/wallpapers/history.jpg";
   }
 
   construct() {
@@ -87,7 +88,6 @@ export class HistoryComponent implements OnInit {
                   this.startingBal = snapshot.val();
                   this.showTable = true;
                   this.totalPortfolioChange = (((this.totalPortfolioValue / this.startingBal) - 1)) * 100;
-                  this.setBackground();
                 })
               })
             }
@@ -107,7 +107,7 @@ export class HistoryComponent implements OnInit {
         this.image = "https://i.imgur.com/HlMGmgm.jpg";
       }
     } else {
-      this.image = "https://c4.wallpaperflare.com/wallpaper/294/320/850/skyline-hong-kong-nightscape-cityscape-wallpaper-preview.jpg";
+      this.image = "../../../assets/wallpapers/history.jpg";
     }
   }
 

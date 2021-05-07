@@ -1,28 +1,59 @@
-.homeBackground {
-    background: url("../../../assets/home/wallpaper.jpg");
-    background-position: center;
+.homeWrapper {}
+
+.homeWrapper .hero1 {
+    min-height: 70vh;
+    border-bottom: 1px solid #000;
+}
+
+.hero1 {
+    width: 100%;
+    background-image: url("https://ak.picdn.net/shutterstock/videos/12600443/thumb/1.jpg");
     background-size: cover;
+    background-repeat: no-repeat;
     background-attachment: fixed;
+    position: relative;
+    height: calc(85vh + 50px);
+}
+
+.hero1 .overlay {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: rgb(0, 45, 115);
+    background: linear-gradient(45deg, rgba(43, 89, 102, 1) 0%, rgba(43, 89, 102, 0.8) 15%, rgba(255, 255, 255, 0) 100%);
+    padding: 130px 50px 20px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 100px 0;
-    height: 90vh;
+    justify-content: space-between;
 }
 
-.homeWrapper {
-    width: 70%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    border: 5px groove #FFF;
-    border-radius: 20px;
-    background: rgba(0, 0, 0, 0.3);
-    padding-top: 1.5%;
+.hero1 .overlay .text {
+    display: inline-block;
+    width: 65%;
 }
 
-.homeWrapper h1 {
-    font-size: 14em;
+.hero1 .overlay .text h2 {
+    font-size: 10em;
+    border-bottom: 5px solid #FFF;
     color: #FFF;
-    -webkit-text-fill-color: rgba(0, 0, 0, 0);
-    -webkit-text-stroke: 4px #FFF;
+    margin-bottom: 30px;
+    text-align: left!important;
+}
+
+.hero1 .overlay .text p {
+    color: #FFF;
+    font-size: 1.5em;
+    font-weight: 200;
+    text-align: left!important;
+}
+
+.hero1 .image {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 25%;
+    height: 85%;
+    margin-right: 50px;
+    border: 5px solid #FFF;
 }
