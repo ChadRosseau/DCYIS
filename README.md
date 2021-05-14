@@ -1,6 +1,5 @@
 # DCYIS
 #### Video Demo:  <URL HERE>
-#### Description:
 
 ## Overview
 DCYIS is a reimagined version of the CS50 'Finance' task, after my realization of the potential of a tool such as this. Within my school, I am the co-founder of a new co-curricular activity aimed at improving financial literacy within our school community, including investment and portfolio management. After seeing the 'Finance' task, I envisioned an upgraded version that could be used internally by our investment society to practice stock investing, the concept which lies at the foundations of this project. In designing this site, there was an emphasis on user-friendliness, readability, and providing more information to the user than in the original 'Finance' task. This readme will take you through the framework, languages and libraries used in the website, how each page was formulated, and some of the design decisions that went into the project.
