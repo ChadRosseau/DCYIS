@@ -24,8 +24,6 @@ app-root {
     /* scroll horizontally as needed */
     overflow-x: auto;
     /* center contents */
-    text-align: center;
-    max-width: 95vw!important;
 }
 
 app-root img {
@@ -36,10 +34,6 @@ app-root img {
 a,
 a:hover {
     text-decoration: none;
-}
-
-p {
-    text-align: center;
 }
 
 button:focus {

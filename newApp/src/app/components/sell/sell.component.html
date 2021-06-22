@@ -53,11 +53,13 @@
                 </b>
             </p>
             <hr>
-            <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary"
-                (click)="resetValues()">Back</button>
-            <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary"
-                (click)="completePurchase(t.value, s.value)" [disabled]="pageData.completePurchaseDisabled">Complete
-                Purchase</button>
+            <div class="buttonWrapper">
+                <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary"
+                    (click)="resetValues()">Back</button>
+                <button class="btn btn-primary" type="submit" [hidden]="!pageData.summary"
+                    (click)="completePurchase(t.value, s.value)" [disabled]="pageData.completePurchaseDisabled">Complete
+                    Purchase</button>
+            </div>
         </div>
         <div class="sellForm">
             <h3 [hidden]="pageData.summary">Sell</h3>

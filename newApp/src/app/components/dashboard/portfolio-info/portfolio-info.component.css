@@ -94,6 +94,7 @@ td input:focus-within {
 
 .adding td {
     background: #3d7d8f45!important;
+    text-align: center;
 }
 
 .createButtons {
@@ -121,6 +122,7 @@ td input:focus-within {
     cursor: default!important;
     background: #3D7D8F;
     border-top: 2px solid #FFF!important;
+    text-align: center;
 }
 
 #addPortfolioButton {
