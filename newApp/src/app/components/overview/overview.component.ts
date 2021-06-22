@@ -63,6 +63,18 @@ export class OverviewComponent implements OnInit {
                           })
                         }
                       }
+                    }).then(() => {
+                      let compRef = this.auth.db.database.ref(`compPortfolios/S2021/${this.auth.userKey}`);
+                      compRef.once('value', (snapshot) => {
+                        let portfolio = snapshot.val();
+                        if (portfolio.id == String(this.auth.currentPortfolioId)) {
+                          console.log("comp found")
+                          this.auth.db.database.ref(`compPortfolios/S2021/${this.auth.userKey}/currentValue`).set(this.totalPortfolioValue);
+                        } else {
+                          console.log("no comp found")
+                          console.log(String(this.auth.currentPortfolioId))
+                        }
+                      })
                     })
                   }
                 })
