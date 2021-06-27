@@ -24,21 +24,6 @@ export class HomeComponent implements OnInit {
     let dbCompPortRef = this.auth.db.object<any>(`compPortfolios/S2021`).valueChanges();
     dbCompPortRef.subscribe(data => {
       let portfolios = Object.values(data);
-      portfolios.push({
-        currentValue: 99500,
-        id: "-Mco7h7mvTzyvExHm59k",
-        ownerUid: "BgmlBO8rPgfYlfC56Ycsc8KSG8B2"
-      })
-      portfolios.push({
-        currentValue: 100000,
-        id: "-Mco7h7mvTzyvExHm59k",
-        ownerUid: "BgmlBO8rPgfYlfC56Ycsc8KSG8B2"
-      })
-      portfolios.push({
-        currentValue: 110000,
-        id: "-Mco7h7mvTzyvExHm59k",
-        ownerUid: "BgmlBO8rPgfYlfC56Ycsc8KSG8B2"
-      })
       portfolios.sort((a, b) => {
         if (a['currentValue'] < b['currentValue']) {
           return 1;
@@ -52,12 +37,11 @@ export class HomeComponent implements OnInit {
         portfolios[i]['percentChange'] = this.findPercent(portfolios[i]['currentValue'])
       }
       this.compPortfolios = portfolios;
-      console.log(this.compPortfolios);
     })
   }
 
   findPercent(value) {
-    return (Math.round(((value / 100000) - 1) * 100) / 100);
+    return ((value / 100000) - 1) * 100;
   }
 
   getColor(percent) {

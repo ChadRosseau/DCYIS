@@ -22,7 +22,8 @@
             <tbody>
                 <tr *ngFor="let portfolio of compPortfolios; let i = index">
                     <td>{{ i+1 }}.</td>
-                    <td colspan="5">{{ users ? users[portfolio.ownerUid]['displayName'] : "" }}</td>
+                    <td colspan="5">
+                        {{ users && users[portfolio.ownerUid] ? users[portfolio.ownerUid]['displayName'] : "" }}</td>
                     <td colspan="2" class="numbers">{{ helpers.usd(portfolio.currentValue) }}</td>
                     <td colspan="2" class="numbers" [style.color]="getColor(portfolio.percentChange)">
                         {{ helpers.toPercent(portfolio.percentChange) }}</td>
