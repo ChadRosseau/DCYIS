@@ -20,6 +20,7 @@
 .dashboardSidebar .sidebar-sticky {
     width: 20vw;
     cursor: pointer;
+    text-align: center;
 }
 
 .info {

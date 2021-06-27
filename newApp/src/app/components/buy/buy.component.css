@@ -48,6 +48,7 @@
     border-radius: 10px;
     min-width: 40%;
     position: relative;
+    text-align: center;
 }
 
 .buyForm h3 {
@@ -76,6 +77,7 @@
     font-size: 2em;
     text-decoration: underline;
     font-weight: bold;
+    text-align: center;
 }
 
 .summary p {
@@ -93,8 +95,14 @@
     border-color: #FFF;
 }
 
+.summary .buttonWrapper {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+}
+
 .summary button {
-    margin: 0 30px;
     background: none;
     border: 2px solid #FFF;
     font-size: 0.8em;

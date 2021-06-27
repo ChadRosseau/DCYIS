@@ -72,13 +72,51 @@ export class AuthService {
     dbUserRef.set(data);
     this.user$ = dbUserRef.valueChanges();
     this.userKey = uid;
-
-    return location.reload();
+    if (email.includes("@dc.edu.hk")) {
+      this.createCompPortfolio(uid, displayName);
+      console.log("dc email")
+    } else {
+      location.reload();
+    }
   }
   // Set tracking variables
 
   async updateUserBalance(uid: string, balance: number) {
     const dbUserBalRef = await this.db.database.ref(`portfolios/${uid}/balance`);
     dbUserBalRef.set(balance);
+  }
+
+  createCompPortfolio(uid, displayName) {
+    const dbUserCompRef = this.db.database.ref(`compPortfolios/S2021/${this.userKey}`);
+    dbUserCompRef.once('value', (snapshot) => {
+      let portfolio = snapshot.val();
+      if (portfolio == null) {
+        const dbUserPortfoliosRef = this.db.database.ref(`portfolios/${uid}`);
+        let newPush = dbUserPortfoliosRef.push()
+        let pushId = newPush.key;
+        newPush.set({
+          id: pushId,
+          ownerUid: uid,
+          name: displayName,
+          description: `${displayName}'s investment portfolio for the DCYIS 2021 Summer investment competition`,
+          startingBal: 100000,
+          balance: 100000,
+          transactionCommission: 1,
+          commissionType: "percentage",
+          stocks: [],
+          history: [],
+          stonks: false
+        });
+        dbUserCompRef.set({
+          id: pushId,
+          ownerUid: uid,
+          currentValue: 100000
+        })
+        console.log("created comp portfolio")
+      }
+      console.log("denied comp portfolio")
+    }).then(() => {
+      location.reload();
+    })
   }
 }
