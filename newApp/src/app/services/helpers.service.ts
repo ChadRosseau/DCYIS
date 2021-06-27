@@ -211,7 +211,7 @@ export class HelpersService {
       hour = this.datePad(zDatetime.getHours()),
       minute = this.datePad(zDatetime.getMinutes()),
       second = this.datePad(zDatetime.getSeconds());
-    let timestamp = `${date}/${month}/${year} - ${hour}:${minute}:${second}`;
+    let timestamp = `${date}/${month + 1}/${year} - ${hour}:${minute}:${second}`;
     return timestamp;
   }
 
