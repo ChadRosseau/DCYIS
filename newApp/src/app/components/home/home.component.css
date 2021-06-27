@@ -53,3 +53,44 @@
     height: 40vh;
     border: 3px solid #FFF;
 }
+
+.hero2 {
+    padding: 50px 0 100px;
+}
+
+.hero2 h2 {
+    text-align: center;
+    font-size: 4em;
+    font-weight: 300;
+    color: rgb(43, 89, 102);
+}
+
+.hero2 h3 {
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: 200;
+    color: rgb(43, 89, 102);
+    margin-bottom: 30px;
+}
+
+.hero2 table {
+    width: 80%!important;
+    table-layout: fixed;
+    border: 3px solid #3D7D8F;
+}
+
+.hero2 thead {
+    background-color: #3D7D8F;
+}
+
+.hero2 thead th {
+    background-color: #3D7D8F;
+    color: #FFF;
+    border-top: none!important;
+    vertical-align: middle;
+}
+
+.hero2 thead th.numbers,
+.hero2 tbody td.numbers {
+    text-align: right;
+}

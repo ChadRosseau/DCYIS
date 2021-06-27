@@ -7,4 +7,27 @@
         <iframe src="https://drive.google.com/file/d/1bpGUqDCehigeOIHnsOX9SOMMdiO1MJ5j/preview" width="640" height="480"
             allow="autoplay"></iframe>
     </div>
+    <div class="hero2">
+        <h2>INVESTMENT COMPETITION STANDINGS</h2>
+        <h3>SUMMER 2021</h3>
+        <table class="table table-striped" style="width: 80%; margin: 0 auto">
+            <thead>
+                <tr>
+                    <th>Ranking</th>
+                    <th colspan="5">Portfolio Owner</th>
+                    <th colspan="2" class="numbers">Current Balance</th>
+                    <th colspan="2" class="numbers">% Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let portfolio of compPortfolios; let i = index">
+                    <td>{{ i+1 }}.</td>
+                    <td colspan="5">{{ users ? users[portfolio.ownerUid]['displayName'] : "" }}</td>
+                    <td colspan="2" class="numbers">{{ helpers.usd(portfolio.currentValue) }}</td>
+                    <td colspan="2" class="numbers" [style.color]="getColor(portfolio.percentChange)">
+                        {{ helpers.toPercent(portfolio.percentChange) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

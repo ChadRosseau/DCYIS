@@ -168,11 +168,11 @@ export class HelpersService {
     return Number(num);
   }
 
+  // Convert positive integer to negative
   toNegative(num) {
     return (num - (2 * num));
   }
 
-  // Convert positive integer to negative
   toPercent(percentChange) {
     if (percentChange) {
       percentChange = percentChange.toFixed(2);
