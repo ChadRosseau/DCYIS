@@ -27,6 +27,7 @@ import { OverviewComponent } from './components/overview/overview.component';
 
 // Auth
 import { AuthService } from './services/auth.service';
+import { CompetitionsService } from './services/competitions.service';
 import { UserInfoComponent } from './components/dashboard/user-info/user-info.component';
 import { PortfolioInfoComponent } from './components/dashboard/portfolio-info/portfolio-info.component';
 
@@ -54,7 +55,7 @@ import { PortfolioInfoComponent } from './components/dashboard/portfolio-info/po
     RouterModule,
     AppRoutingModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, CompetitionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -22,10 +22,6 @@ export class HelpersService {
     }
   }
 
-  ngOnInit() {
-
-  }
-
   log() {
     console.log(this.userObject.uid);
   }
